@@ -179,6 +179,7 @@ fi
 echo "-----> Extracting PhantomJS binaries" 
 mkdir -p $BUILD_DIR/vendor/phantomjs
 tar zxf $CACHE_DIR/$PHANTOM_FILENAME -C $BUILD_DIR/vendor/phantomjs
+PATH="$BUILD_DIR/vendor/phantomjs/bin:$PATH"
 
 
 # setting up paths for building

@@ -168,18 +168,6 @@ echo "-----> Vendoring node into slug"
 mkdir -p "$BUILD_DIR/bin"
 cp "$VENDORED_NODE/bin/node" "$BUILD_DIR/bin/node"
 
-# download phantomjs
-mkdir -p $CACHE_DIR
-if ! [ -e $CACHE_DIR/$PHANTOM_FILENAME ]; then
-  echo "-----> Fetching PhantomJS buildpack binaries"
-  curl $PHANTOM_PACKAGE -s -o $CACHE_DIR/$PHANTOM_FILENAME
-fi
-
-# extract phantomjs
-echo "-----> Extracting PhantomJS binaries" 
-mkdir -p $BUILD_DIR/vendor/phantomjs
-tar zxf $CACHE_DIR/$PHANTOM_FILENAME -C $BUILD_DIR/vendor/phantomjs
-PATH="$BUILD_DIR/vendor/phantomjs/bin:$PATH"
 
 
 # setting up paths for building
@@ -198,3 +186,18 @@ echo "Dependencies installed" | indent
 echo "-----> Building runtime environment"
 mkdir -p $BUILD_DIR/.profile.d
 echo "export PATH=\"\$HOME/bin:\$HOME/node_modules/.bin:/app/vendor/phantomjs/bin:\$PATH\"" > $BUILD_DIR/.profile.d/nodejs.sh
+
+# download phantomjs
+mkdir -p $CACHE_DIR
+if ! [ -e $CACHE_DIR/$PHANTOM_FILENAME ]; then
+  echo "-----> Fetching PhantomJS buildpack binaries"
+  curl $PHANTOM_PACKAGE -s -o $CACHE_DIR/$PHANTOM_FILENAME
+fi
+
+# extract phantomjs
+echo "-----> Extracting PhantomJS binaries" 
+mkdir -p $BUILD_DIR/vendor/phantomjs
+tar zxf $CACHE_DIR/$PHANTOM_FILENAME -C $BUILD_DIR/vendor/phantomjs
+PATH="$BUILD_DIR/vendor/phantomjs/bin:$PATH"
+
+phantomjs -v
